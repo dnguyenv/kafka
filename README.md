@@ -33,6 +33,14 @@ Do this:
 
 ` sudo ifconfig vboxnet1 down && sudo ifconfig vboxnet1 up`
 
+Create docker-machine:
+
+`docker-machine create --driver virtualbox duyhardkafka`
+
 Set a machine as active:
 
 `eval "$(docker-machine env duyhardkafka)"`
+
+`docker exec -it b6c642b48db4 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic test`
+
+`docker exec -it b6c642b48db4 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic test`
