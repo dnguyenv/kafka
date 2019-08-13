@@ -107,7 +107,7 @@ $ sudo apt install -y default-jdk
 
 ```
 $ wget http://mirror.cogentco.com/pub/apache/kafka/2.2.0/kafka_2.12-2.2.0.tgz
-$ tar -xvf kafka_2.12-2.2.0.tgz
+$ tar -xvf kafka_2.12-2.2.0.tgz && cd kafka_2.12-2.2.0
 
 ```
 
