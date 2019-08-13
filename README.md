@@ -1,4 +1,4 @@
-# Kafka quick start on
+# Kafka quick start
 
 To play around with Kafka, you can either install all components in your native OS, or use the containerized options as following:
 
