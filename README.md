@@ -26,7 +26,7 @@ Now you can run the kafka cluster in the VM:
 
 `$ docker run -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=`docker-machine ip \`docker-machine active\`` --env ADVERTISED_PORT=9092 spotify/kafka`
 
-# Test it:
+### Test it:
 
 Open a new terminal (1) window and run this to create a topic and a stream from the termal to the cluster. 
 
