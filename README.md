@@ -24,7 +24,7 @@ After this command, your Docker client will be interacting with the daemon runni
 
 Now you can run the kafka cluster in the VM:
 
-`$ docker run -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=`docker-machine ip \`docker-machine active\`` --env ADVERTISED_PORT=9092 spotify/kafka`
+```$ docker run -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=`docker-machine ip \`docker-machine active\`` --env ADVERTISED_PORT=9092 spotify/kafka```
 
 ### Test it:
 
