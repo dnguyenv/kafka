@@ -32,7 +32,16 @@ Open a new terminal (1) window and run this to create a topic and a stream from 
 
 ```
 $ eval "$(docker-machine env machinename)"
-$ docker exec -it b6c642b48db4 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest
+```
+Find the container ID:
+
+```
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                            NAMES
+21f0d14c9120        spotify/kafka       "supervisord -n"    20 seconds ago      Up 19 seconds       0.0.0.0:2181->2181/tcp, 0.0.0.0:9092->9092/tcp   jolly_hawking
+```
+$ export KAFKA=`docker-machine ip \`docker-machine active\``:9092
+$ docker exec -it 21f0d14c9120 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest
 
 ```
 
@@ -40,7 +49,8 @@ Open another terminal (2) window and run this to subscribe to the topic
 
 ```
 $ eval "$(docker-machine env machinename)"
-$ docker exec -it b6c642b48db4 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic kafkatest
+$ export ZOOKEEPER=`docker-machine ip \`docker-machine active\``:2181
+$ docker exec -it 21f0d14c9120 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic kafkatest
 ```
 
 Now if you type something on terminal(1), you will see the content streamed to terminal(2)
