@@ -6,7 +6,7 @@ Prerequisites:
 - Docker engine (download from docker.com)
 - docker-compose: https://docs.docker.com/compose/install/
 
-## 1. Use docker-machine to host all-in-one-node kafka cluster
+## Option 1: Use docker-machine to host all-in-one-node kafka cluster
 
 This Docker image has everything necessary to run a kafka cluster, including zookeeper: https://hub.docker.com/r/spotify/kafka/
 
@@ -97,11 +97,13 @@ Try to restart the network interface that the VM is attached to, for example, if
 `$ sudo ifconfig vboxnet1 down && sudo ifconfig vboxnet1 up`
 
 
-## 2. Install Kafka from scratch using docker-compose
+## Option 2: Install Kafka from scratch using docker-compose
 
-Within your Ubuntu: 
+Assuming you already have an Ubuntu machine provisioned. Eg: You can download an Ubuntu image and launch it from your Mac using VirtualBox
 
-## Install Docker and docker-compose
+Login to the machine and:
+
+### Install Docker and docker-compose
 
 ```
 $ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - 
