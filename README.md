@@ -14,9 +14,9 @@ Flow these steps to set it up on your laptop. The example uses Mac OS.
 
 ### Activate the machine - Connect your Docker client to Docker daemon in side the VM
 
-You may have several `machines` (VMs) created. This is to set one of them as active node which then will be used to deploy the kafka cluster
+You may have several `machines` (VMs) created. This is to set one of them as active node which then will be used to deploy the kafka cluster.  Where you see `<machinename>`, substitute it with the name of your machine VM.  Use "`docker-machine ls`" to find out the name of your machine VM.
 
-`$ eval "$(docker-machine env machinename)"` 
+`$ eval "$(docker-machine env <machinename>)"` 
 
 After this command, your Docker client will be interacting with the daemon running inside the `machinename` VM.
 
@@ -31,7 +31,7 @@ Now you can run the kafka cluster in the VM:
 Open a new terminal (1) window and run this to create a topic and a stream from the termal to the cluster. 
 
 ```
-$ eval "$(docker-machine env machinename)"
+$ eval "$(docker-machine env <machinename>)"
 ```
 Find the container ID:
 
@@ -40,15 +40,15 @@ $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                            NAMES
 21f0d14c9120        spotify/kafka       "supervisord -n"    20 seconds ago      Up 19 seconds       0.0.0.0:2181->2181/tcp, 0.0.0.0:9092->9092/tcp   jolly_hawking
 ```
+```
 $ export KAFKA=`docker-machine ip \`docker-machine active\``:9092
 $ docker exec -it 21f0d14c9120 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest
-
 ```
 
 Open another terminal (2) window and run this to subscribe to the topic
 
 ```
-$ eval "$(docker-machine env machinename)"
+$ eval "$(docker-machine env <machinename>)"
 $ export ZOOKEEPER=`docker-machine ip \`docker-machine active\``:2181
 $ docker exec -it 21f0d14c9120 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic kafkatest
 ```
