@@ -1,6 +1,6 @@
 # Kafka quick start
 
-To play around with Kafka, you can either install all components in your native OS, or use the containerized options as following:
+This tutorial aims to help you getting started with Kafka by quickly spinning up a cluster. To play around with Kafka, you can either install all components in your native OS, or use Docker to launch your cluster locally. In this tuturial, I'll walk you through 2 options that use Docker.
 
 ## 1. Use docker-machine to host all-in-one-node kafka cluster
 
