@@ -12,11 +12,21 @@ Flow these steps to set it up on your laptop. The example uses Mac OS.
 
 `$ docker-machine create --driver virtualbox <machinename>`
 
+For example:
+
+`$ docker-machine create --driver virtualbox kafkatest`
+
 ### Activate the machine - Connect your Docker client to Docker daemon in side the VM
 
 You may have several `machines` (VMs) created. This is to set one of them as active node which then will be used to deploy the kafka cluster
 
 `$ eval "$(docker-machine env machinename)"` 
+
+Example:
+
+`$ eval "$(docker-machine env kafkatest)"` 
+
+Notes: From now on, I'll use `kafkatest` as the machine name in the commands below
 
 After this command, your Docker client will be interacting with the daemon running inside the `machinename` VM.
 
@@ -24,33 +34,35 @@ After this command, your Docker client will be interacting with the daemon runni
 
 Now you can run the kafka cluster in the VM:
 
-```$ docker run -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=`docker-machine ip \`docker-machine active\`` --env ADVERTISED_PORT=9092 spotify/kafka```
+```bash
+$ docker run --name kafkatest -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=$(docker-machine ip $(docker-machine active)) --env ADVERTISED_PORT=9092 spotify/kafka
+```
 
 ### Test it:
 
 Open a new terminal (1) window and run this to create a topic and a stream from the termal to the cluster. 
 
+```bash
+$ eval "$(docker-machine env kafkatest)"
 ```
-$ eval "$(docker-machine env machinename)"
-```
-Find the container ID:
 
-```
+Double check to see if the container is running:
+
+```bash
 $ docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                            NAMES
-21f0d14c9120        spotify/kafka       "supervisord -n"    20 seconds ago      Up 19 seconds       0.0.0.0:2181->2181/tcp, 0.0.0.0:9092->9092/tcp   jolly_hawking
-```
-$ export KAFKA=`docker-machine ip \`docker-machine active\``:9092
-$ docker exec -it 21f0d14c9120 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS                                            NAMES
+6654ae622c78        spotify/kafka       "supervisord -n"    About a minute ago   Up About a minute   0.0.0.0:2181->2181/tcp, 0.0.0.0:9092->9092/tcp   kafkatest
 
+$ export KAFKA=$(docker-machine ip $(docker-machine active)):9092
+$ docker exec -it kafkatest /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest
 ```
 
 Open another terminal (2) window and run this to subscribe to the topic
 
-```
+```bash
 $ eval "$(docker-machine env machinename)"
-$ export ZOOKEEPER=`docker-machine ip \`docker-machine active\``:2181
-$ docker exec -it 21f0d14c9120 /opt/kafka_2.11-0.10.1.0/bin/kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic kafkatest
+$ export ZOOKEEPER=$(docker-machine ip $(docker-machine active)):2181
+$ docker exec -it kafkatest /opt/kafka_2.11-0.10.1.0/bin/kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic kafkatest
 ```
 
 Now if you type something on terminal(1), you will see the content streamed to terminal(2)
