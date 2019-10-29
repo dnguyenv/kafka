@@ -40,7 +40,9 @@ $ docker run --name kafkatest -p 2181:2181 -p 9092:9092 --env ADVERTISED_HOST=$(
 
 ### Test it:
 
-Open a new terminal (1) window and run this to create a topic and a stream from the termal to the cluster. 
+Open a new terminal (1) window and run these commands to create a topic and a stream from the termal to the cluster. 
+
+Connect Docker from your local with the deamon running inside the `kafkatest` machine:
 
 ```bash
 $ eval "$(docker-machine env kafkatest)"
@@ -53,6 +55,8 @@ $ docker ps
 CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS                                            NAMES
 6654ae622c78        spotify/kafka       "supervisord -n"    About a minute ago   Up About a minute   0.0.0.0:2181->2181/tcp, 0.0.0.0:9092->9092/tcp   kafkatest
 
+Create the topic
+
 $ export KAFKA=$(docker-machine ip $(docker-machine active)):9092
 $ docker exec -it kafkatest /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest
 ```
@@ -60,7 +64,7 @@ $ docker exec -it kafkatest /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.
 Open another terminal (2) window and run this to subscribe to the topic
 
 ```bash
-$ eval "$(docker-machine env machinename)"
+$ eval "$(docker-machine env kafkatest)"
 $ export ZOOKEEPER=$(docker-machine ip $(docker-machine active)):2181
 $ docker exec -it kafkatest /opt/kafka_2.11-0.10.1.0/bin/kafka-console-consumer.sh --zookeeper $ZOOKEEPER --topic kafkatest
 ```
