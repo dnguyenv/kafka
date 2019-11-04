@@ -78,8 +78,10 @@ Now if you type something on terminal(1), you will see the content streamed to t
 ***Notes***: If you want to provide the input data to the kafka cluster from somewhere else instead of manually typing on terminal (1) (eg: via a curl, tail, etc), instead of executing this: `docker exec -it kafkatest /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest`, you can `pipe` the input data into the producer. For example:
 
 ```bash
-$ curl -XGET https://www.ibm.com | docker exec -i kafkatest /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest
+$ curl -XGET -L https://www.ibm.com | docker exec -i kafkatest /opt/kafka_2.11-0.10.1.0/bin/kafka-console-producer.sh --broker-list $KAFKA --topic kafkatest
 ```
+
+Now the output of the command executed will be routed to terminal (2)
 
 ### docker-machine trouble-shootings:
 
